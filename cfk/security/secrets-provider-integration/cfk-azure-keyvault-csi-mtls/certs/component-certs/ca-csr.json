@@ -1,0 +1,16 @@
+{
+  "CN": "AmithCA",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "US",
+      "L": "SantaClara",
+      "O": "AmithCorporation",
+      "ST": "CA",
+      "OU": "InfoSec"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "CN": "c3",
+  "hosts": [
+    "c3",
+    "c3.confluent-dev.amith.com",
+    "controlcenter.confluent.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "US",
+      "ST": "CA",
+      "L": "Santa Clara"
+    }
+  ]
+}

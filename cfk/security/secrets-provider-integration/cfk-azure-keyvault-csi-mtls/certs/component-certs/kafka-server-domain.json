@@ -1,0 +1,21 @@
+{
+  "CN": "kafka",
+  "hosts": [
+    "kafka",
+    "kafka.confluent-dev.amith.com",
+    "*.kafka.confluent-dev.amith.com",
+    "kafka.confluent.svc.cluster.local",
+    "*.kafka.confluent.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "US",
+      "ST": "CA",
+      "L": "SantaClara"
+    }
+  ]
+}

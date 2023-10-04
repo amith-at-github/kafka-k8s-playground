@@ -1,0 +1,80 @@
+apiVersion: networking.k8s.io/v1beta1 # TODO:-deprecated
+#apiVersion: networking.k8s.io/v1 - TODO
+kind: Ingress
+metadata:
+  name: ingress-with-sni
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+spec:
+  tls:
+    - hosts:
+        - kafka.confluent-dev.amith.com
+        - fm0.confluent-dev.amith.com
+        - fm1.confluent-dev.amith.com
+        - fm2.confluent-dev.amith.com
+#        - fm3.confluent-dev.amith.com
+        - c3.confluent-dev.amith.com
+        - ksqldb.confluent-dev.amith.com
+        - connect.confluent-dev.amith.com
+        - schema.confluent-dev.amith.com
+        - rp.confluent-dev.amith.com
+      # secretName: tls-secret-new
+  rules:
+    - host: kafka.confluent-dev.amith.com
+      http:
+        paths:
+          - backend:
+              serviceName: kafka-bootstrap
+              servicePort: 9092
+    - host: fm0.confluent-dev.amith.com
+      http:
+        paths:
+          - backend:
+              serviceName: kafka-0-internal
+              servicePort: 9092
+    - host: fm1.confluent-dev.amith.com
+      http:
+        paths:
+          - backend:
+              serviceName: kafka-1-internal
+              servicePort: 9092
+    - host: fm2.confluent-dev.amith.com
+      http:
+        paths:
+          - backend:
+              serviceName: kafka-2-internal
+              servicePort: 9092
+    # - host: b3.confluent-dev.amith.com
+    #   http:
+    #     paths:
+    #       - backend:
+    #           serviceName: kafka-3-internal
+    #           servicePort: 9092
+    - host: c3.confluent-dev.amith.com
+      http:
+        paths:
+          - backend:
+              serviceName: controlcenter-bootstrap
+              servicePort: 9021
+    - host: ksqldb.confluent-dev.amith.com
+      http:
+        paths:
+          - backend:
+              serviceName: ksqldb-bootstrap
+              servicePort: 8088
+    - host: connect.confluent-dev.amith.com
+      http:
+        paths:
+          - backend:
+              serviceName: connect-bootstrap
+              servicePort: 8083
+    - host: schema.confluent-dev.amith.com
+      http:
+        paths:
+          - backend:
+              serviceName: schemaregistry-bootstrap
+              servicePort: 8081

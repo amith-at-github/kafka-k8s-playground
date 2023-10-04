@@ -1,0 +1,20 @@
+{
+  "CN": "ksql",
+  "hosts": [
+    "ksql",
+    "ksqldb.mydomain.example",
+    "ksqldb.test-app-namespace.svc.cluster.local",
+    "ksqldb.confluent.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "Universe",
+      "ST": "Pangea",
+      "L": "Earth"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "CN": "conjur-oss",
+  "hosts": [
+    "conjur-oss",
+    "conjur-oss.myorg.com",
+    "conjur.myorg.com",
+    "conjur-oss-ingress",
+    "conjur-oss.conjur.svc.cluster.local",
+    "conjur-oss-ingress.conjur.svc.cluster.local",
+    "conjur-oss.mydomain.example",
+    "conjur-oss.confluent.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "Universe",
+      "ST": "Pangea",
+      "L": "Earth"
+    }
+  ]
+}

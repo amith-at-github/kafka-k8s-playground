@@ -1,0 +1,20 @@
+{
+  "CN": "krp",
+  "hosts": [
+    "krp",
+    "kafkarestproxy.mydomain.example",
+    "kafkarestproxy.test-app-namespace.svc.cluster.local",
+    "kafkarestproxy.confluent.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "Universe",
+      "ST": "Pangea",
+      "L": "Earth"
+    }
+  ]
+}

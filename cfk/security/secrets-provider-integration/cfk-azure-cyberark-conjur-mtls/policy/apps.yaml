@@ -1,0 +1,12 @@
+- !host
+  id: secrets-provider-app
+  annotations:
+    authn-k8s/namespace: test-app-namespace
+  #  authn-k8s/service-account: test-app-sa
+    authn-k8s/authentication-container-name: cyberark-secrets-provider-for-k8s
+   
+- !grant
+  roles:
+  - !group conjur/authn-k8s/dev-cluster/consumers
+  members:
+  - !host secrets-provider-app

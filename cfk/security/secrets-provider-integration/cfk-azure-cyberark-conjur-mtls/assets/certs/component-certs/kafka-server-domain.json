@@ -1,0 +1,30 @@
+{
+  "CN": "kafka",
+  "hosts": [
+    "kafka",
+    "*.my.domain",
+    "kafka.test-app-namespace.svc.cluster.local",
+    "*.kafka.test-app-namespace.svc.cluster.local",
+    "kafka.confluent.svc.cluster.local",
+    "*.kafka.confluent.svc.cluster.local",
+    "kafka.source.svc.cluster.local",
+    "*.kafka.source.svc.cluster.local",
+    "kafka.destination.svc.cluster.local",
+    "*.kafka.destination.svc.cluster.local",
+    "zookeeper.source.svc.cluster.local",
+    "*.zookeeper.source.svc.cluster.local",
+    "zookeeper.destination.svc.cluster.local",
+    "*.zookeeper.destination.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "Universe",
+      "ST": "Pangea",
+      "L": "Earth"
+    }
+  ]
+}

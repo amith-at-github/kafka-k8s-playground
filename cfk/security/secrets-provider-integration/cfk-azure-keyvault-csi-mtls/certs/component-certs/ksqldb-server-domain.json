@@ -1,0 +1,19 @@
+{
+  "CN": "ksql",
+  "hosts": [
+    "ksql",
+    "ksqldb.confluent-dev.amith.com",
+    "ksqldb.confluent.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "US",
+      "ST": "CA",
+      "L": "SantaClara"
+    }
+  ]
+}

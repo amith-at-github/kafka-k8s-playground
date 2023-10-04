@@ -164,41 +164,44 @@ Refer [setup-conjur-server.md](./setup-conjur-server.md)
     kubectl apply -f $TUTORIAL_HOME/secrets/db-credentials.yaml -n $CFLT_NS
 
 ---
----- #PUSH To SECRET with  REFERSH --
-#### add necessary role binding its the same for standalone and sidecar
--- create  a new rolebinding.
- kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/rb-push-to-secret.yml -n test-app-namespace
+#### PUSH To SECRET with  Auto Rotation enabled 
 
-kubectl create configmap conjur-sidecar-cm --from-file=pod-template.yaml=$TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/extra-sidecar-container.yaml -n  $CFLT_NS
+        #### Add necessary role binding its the same for standalone and sidecar
+        #create  a new rolebinding.
+        kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/rb-push-to-secret.yml -n test-app-namespace
 
- kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
+        kubectl create configmap conjur-sidecar-cm --from-file=pod-template.yaml=$TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/extra-sidecar-container.yaml -n  $CFLT_NS
 
-  ## delete if needed
-  kubectl delete -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
+        kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
 
-  kubectl delete cm  conjur-sidecar-cm -n   $CFLT_NS
+        ## Delete if needed
+        kubectl delete -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
+
+        kubectl delete cm  conjur-sidecar-cm -n   $CFLT_NS
 
 ---
 
-#### install CFLT operator
+#### Install CFLT operator
 helm upgrade --install operator confluentinc/confluent-for-kubernetes --namespace $CFLT_NS
 
 kubectl get pods --namespace $CFLT_NS
 
 
-
+---
 
 #### Deploy CFLT platform
 kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/m/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
 
 
 
-
+---
 #### Portforward to access control panel
 kubectl port-forward controlcenter-0 9021:9021 --namespace $CFLT_NS
 https://localhost:9021
 
-#### TearDown
+---
+
+### TearDown
 kubectl delete -f $TUTORIAL_HOME/deploy-scenarios/job-to-secret-cflt-platform/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
 kubectl delete secret \
 tls-zookeeper tls-kafka  tls-controlcenter tls-schemaregistry tls-connect tls-ksqldb credential  tls-kafkarestproxy \

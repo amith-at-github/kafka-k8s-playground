@@ -1,5 +1,5 @@
 
-
+![High level conjur-cfk-integration](conjur-cfk-integration.png)
 
 
 ## POC details as follows.

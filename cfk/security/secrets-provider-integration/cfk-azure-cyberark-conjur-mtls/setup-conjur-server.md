@@ -1,5 +1,5 @@
 
-### STEP 5: Setup conjur server on conjur namespace:
+###  Setup conjur server on conjur namespace:
     DATA_KEY="$(docker run --rm cyberark/conjur data-key generate)"
     HELM_RELEASE_NAME=conjur-oss
 
@@ -53,6 +53,6 @@
               -- conjurctl role retrieve-key myorg:user:admin | tail -1
 #### important : make a note of admin api key
     # e.g
-    razq3p301891a2etkzd215k02kc2f9zms83jkwckw1701y7g1dkvcm0
+    km3nnn1hvy8v1mamxjt3hge0013hcpqvqav56d41317zgw2m4sb43
 
 -----------

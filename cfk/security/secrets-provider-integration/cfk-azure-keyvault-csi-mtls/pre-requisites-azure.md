@@ -49,7 +49,7 @@ az keyvault secret set --vault-name $AZ_KEYVAULT_NAME--name "foo" --value "bar"
 az aks get-versions --location $AZ_REGION --output table
 
 ## Create your AKS cluster
-az aks create --resource-group $AZ_RESOURCE_GRP_NAME --name $AKS_CLSTR_NAME --node-count 6 --zones 1 2 3 --kubernetes-version 1.24.6 --enable-managed-identity --enable-secret-rotation --enable-addons azure-keyvault-secrets-provider  --rotation-poll-interval 1m
+az aks create --resource-group $AZ_RESOURCE_GRP_NAME --name $AKS_CLSTR_NAME --node-count 6 --zones 1 2 3 --kubernetes-version 1.25.11 --enable-managed-identity --enable-secret-rotation --enable-addons azure-keyvault-secrets-provider  --rotation-poll-interval 1m
 
 
 ## To display output of the AKS cluster creation
@@ -62,12 +62,12 @@ az aks get-credentials --name $AKS_CLSTR_NAME --resource-group $AZ_RESOURCE_GRP_
 
 ## ADD labels to nodes - node affinity
 kubectl get nodes
-kubectl label node aks-nodepool1-16505438-vmss000000 nodeType=non-kafka
-kubectl label node aks-nodepool1-16505438-vmss000001 nodeType=non-kafka
-kubectl label node aks-nodepool1-16505438-vmss000002 nodeType=non-kafka
-kubectl label node aks-nodepool1-16505438-vmss000003 nodeType=kafka
-kubectl label node aks-nodepool1-16505438-vmss000004 nodeType=kafka
-kubectl label node aks-nodepool1-16505438-vmss000005 nodeType=kafka
+kubectl label node aks-nodepool1-21690474-vmss000000 nodeType=non-kafka
+kubectl label node aks-nodepool1-21690474-vmss000001 nodeType=non-kafka
+kubectl label node aks-nodepool1-21690474-vmss000002 nodeType=non-kafka
+kubectl label node aks-nodepool1-21690474-vmss000003 nodeType=kafka
+kubectl label node aks-nodepool1-21690474-vmss000004 nodeType=kafka
+kubectl label node aks-nodepool1-21690474-vmss000005 nodeType=kafka
 
 ## IF needed group into multiple nodepools ( optional )
 az aks nodepool add \

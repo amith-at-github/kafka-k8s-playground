@@ -6,7 +6,7 @@
 -   setup Azure AKS cluster
 -   setup a Conjur-OSS server running on "conjur" namesapce 
 -   setup conjur-secret-provider as an application in a separate namespace ( "test-app-namespace"). conjur secret provider connect to conjur-server to get secrets and updates kubernetes secrets within same application namespace
--   setup cfk (cp-platform) in the same namespace as conjur-secret-provider. ("test-app-namesapce"). All the cp components on CKF is able to get the certificates/credentials  from kubernetes secrets ( zookeeper, kafka, SR, C3 , KafkaRestProxy, Connect, KSQLDB)
+-   setup cfk (cp-platform) in the same namespace as conjur-secret-provider. ("test-app-namesapce"). All the cp components on CFK is able to get the certificates/credentials  from kubernetes secrets ( zookeeper, kafka, SR, C3 , KafkaRestProxy, Connect, KSQLDB)
 
 ## Features:
 -   kubernetes secrets are retrieved from Conjur secrets. The secret- Sync is set up as an application container(deployment) and not as a sideCar.
@@ -30,7 +30,6 @@
     kubectl delete namespace test-app-namespace  conjur
 
     rm -rf $TUTORIAL_HOME/files-to-upload/cp-conjur-secrets/*
-    rm -rf $TUTORIAL_HOME/files-to-upload/temp/*
     rm -rf $TUTORIAL_HOME/helm/conjur-server-values.yaml
     rm -rf $TUTORIAL_HOME/assets/certs/component-certs/generated
 
@@ -77,7 +76,7 @@ Refer [setup-conjur-server.md](./setup-conjur-server.md)
 
 ### STEP 6:  Create configmap containing the mTLS cert & key
     kubectl create configmap cp-conjur-secrets -n $CONJUR_NAMESPACE --from-file $TUTORIAL_HOME/files-to-upload/cp-conjur-secrets/
-    $ # Create a configmap containing all the policy files
+    # Create a configmap containing all the policy files
     kubectl create configmap policies -n $CONJUR_NAMESPACE --from-file $TUTORIAL_HOME/policy
 
 ---
@@ -96,8 +95,8 @@ Refer [setup-conjur-server.md](./setup-conjur-server.md)
     conjur init -u $CONJUR_URL -a $ACCOUNT --self-signed
 
     conjur login 
-    username: admin ..pwd copy from the previous
-    razq3p301891a2etkzd215k02kc2f9zms83jkwckw1701y7g1dkvcm0
+    username: admin ..pwd copy from the previous (conjur-server-setup admin password)
+    km3nnn1hvy8v1mamxjt3hge0013hcpqvqav56d41317zgw2m4sb43
 
     cd policy
     conjur policy load -f k8s-authenticator-webservice.yml -b root
@@ -109,9 +108,6 @@ Refer [setup-conjur-server.md](./setup-conjur-server.md)
 
     conjur variable set -i conjur/authn-k8s/dev-cluster/ca/cert -v "$(cat ca.cert)"
 
-    conjur variable set -i conjur/authn-k8s/$SERVICE_ID/ca/key -v "$(cat ca.key)"
-
-    conjur variable set -i conjur/authn-k8s/$SERVICE_ID/ca/cert -v "$(cat ca.cert)"
 
     #myorg:host:secrets-provider-app
     #apikey: 37dv9mtf2wb531ckb9p3223wqaf1qj7wjz38aebr11k33e4227ew1y3
@@ -141,8 +137,9 @@ Refer [setup-conjur-server.md](./setup-conjur-server.md)
     conjur variable set -i secrets/ksqldb/ksqldb-server-key -v  "$(cat ksqldb-server-key.pem)"
 
 ---
-#### 
- conjur list (command to validate)
+#### Command to validate if all variables are added to conjur server
+    conjur list
+    exit ( off of shell)
 
 ---------------------------
 ### STEP 8:  Create Confluent platform namespace & deploy 
@@ -164,22 +161,6 @@ Refer [setup-conjur-server.md](./setup-conjur-server.md)
     kubectl apply -f $TUTORIAL_HOME/secrets/db-credentials.yaml -n $CFLT_NS
 
 ---
-#### PUSH To SECRET with  Auto Rotation enabled 
-
-        #### Add necessary role binding its the same for standalone and sidecar
-        #create  a new rolebinding.
-        kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/rb-push-to-secret.yml -n test-app-namespace
-
-        kubectl create configmap conjur-sidecar-cm --from-file=pod-template.yaml=$TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/extra-sidecar-container.yaml -n  $CFLT_NS
-
-        kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
-
-        ## Delete if needed
-        kubectl delete -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
-
-        kubectl delete cm  conjur-sidecar-cm -n   $CFLT_NS
-
----
 
 #### Install CFLT operator
 helm upgrade --install operator confluentinc/confluent-for-kubernetes --namespace $CFLT_NS
@@ -188,6 +169,24 @@ kubectl get pods --namespace $CFLT_NS
 
 
 ---
+#### PUSH To SECRET with  Auto Rotation enabled 
+
+        #### Add necessary role binding its the same for standalone and sidecar
+        #create  a new rolebinding.
+
+        kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/job-to-secret-cflt-platform/rb-push-to-secret.yml -n test-app-namespace
+        kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/job-to-secret-cflt-platform/job-to-secrets.yaml -n test-app-namespace
+
+        kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/job-to-secret-cflt-platform/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS
+        
+        ## Delete if needed
+        kubectl delete -f $TUTORIAL_HOME/deploy-scenarios/job-to-secret-cflt-platform/job-to-secrets.yaml -n test-app-namespace
+
+        kubectl delete cm  conjur-sidecar-cm -n   $CFLT_NS
+
+---
+
+
 
 #### Deploy CFLT platform
 kubectl apply -f $TUTORIAL_HOME/deploy-scenarios/push-to-secret-cflt-platform/m/confluent-platform-mtls-acls.yaml --namespace $CFLT_NS

@@ -13,7 +13,7 @@ export AZ_RESOURCE_GRP_NAME=amith-group-tst
 export AZ_REGION=eastus
 export AZ_KEYVAULT_NAME=amithazvaulttst
 export AKS_CLSTR_NAME=amith-cfk-cluster
-export AZ_RSR_GRP_OWNER_EMAIL='owner_email=ammanjunath@confluent.io'
+export AZ_RSR_GRP_OWNER_EMAIL='owner_email=YOUR@EMAIL'
 
 ##### Create an group for your AKS
 az group create --name $AZ_RESOURCE_GRP_NAME --location $AZ_REGION --tags $AZ_RSR_GRP_OWNER_EMAIL

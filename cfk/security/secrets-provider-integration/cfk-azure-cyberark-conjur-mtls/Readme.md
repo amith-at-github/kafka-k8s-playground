@@ -33,6 +33,22 @@
     rm -rf $TUTORIAL_HOME/helm/conjur-server-values.yaml
     rm -rf $TUTORIAL_HOME/assets/certs/component-certs/generated
 
+### STEP 1.2 (Optional CLI mode ) azure aks cluster
+
+        export DEMO_HOME=$PWD
+        export AZ_RESOURCE_GRP_NAME=amith-group-tst
+        export AZ_REGION=eastus
+        export AKS_CLSTR_NAME=amith-cfk-cluster
+        export AZ_RSR_GRP_OWNER_EMAIL='owner_email=<YOUR@EMAIL>'
+
+        ##### Create an group for your AKS
+        az group create --name $AZ_RESOURCE_GRP_NAME --location $AZ_REGION --tags $AZ_RSR_GRP_OWNER_EMAIL
+
+        ## Create your AKS cluster
+        az aks create --resource-group $AZ_RESOURCE_GRP_NAME --name $AKS_CLSTR_NAME --node-count 6 --zones 1 2 3 --kubernetes-version 1.25.11
+
+        ## TO DELETE RESOURC GROUP AND AKS CLUSTER
+        az aks delete --resource-group $AZ_RESOURCE_GRP_NAME  --name $AKS_CLSTR_NAME
 ---
 ### STEP 2: Prepare necessary certificates & secrets
 Refer [prep-certs.md](./prep-certs.md)

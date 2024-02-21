@@ -1,2 +1,2 @@
-username=OXKMUPPS7SXJIUWK
-password=BZTuQiiBj/6fkZrqy5WEelb45r6nMllkHjp/Ps0xBcC1UzLyHkbCL5fmhURHdR8P
+username=sr-key
+password=sr-secret

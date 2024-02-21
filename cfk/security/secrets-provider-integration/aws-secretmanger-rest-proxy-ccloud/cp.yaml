@@ -1,0 +1,52 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: KafkaRestProxy
+metadata:
+  name: krp
+  namespace: confluent
+spec:
+  configOverrides:
+    server:
+      - kafka.rest.resource.extension.class=io.confluent.kafkarest.security.KafkaRestSecurityResourceExtension
+      - client.security.protocol=SASL_SSL
+      - confluent.rest.auth.propagate.method=JETTY_AUTH
+      - authentication.method=BASIC
+      - authentication.realm=KafkaRest
+      - authentication.roles=krp-users
+    jvm:
+      - "-Djava.security.auth.login.config=/mnt/secret-store/cp2ccloud-rest-users/ccloud-rp-access.jaas"  
+  replicas: 1
+  mountedSecrets:
+  - secretRef: cp2ccloud-rest-users
+  mountedVolumes:
+    volumes:
+    - name: secrets-store01-inline
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "aws-secrets-class-rp"
+    volumeMounts:
+    - name: secrets-store01-inline
+      mountPath: "/mnt/secret-store/cp2ccloud-rest-users"
+      readOnly: true
+  image:
+    application: confluentinc/cp-kafka-rest:7.5.1
+    init: confluentinc/confluent-init-container:2.7.1
+  podTemplate:
+    serviceAccountName: eksdemo-secretmanager-sa3
+  dependencies:
+    kafka:
+      bootstrapEndpoint: pkc-rgm37.us-west-2.aws.confluent.cloud:9092
+      authentication:
+        type: plain
+        jaasConfig:
+           secretRef: cloud-plain
+      tls:
+        enabled: true
+        ignoreTrustStoreConfig: true 
+    schemaRegistry:
+      url: https://psrc-1wydj.us-east-2.aws.confluent.cloud
+      authentication:
+        type: basic
+        basic:
+          secretRef: cloud-sr-access

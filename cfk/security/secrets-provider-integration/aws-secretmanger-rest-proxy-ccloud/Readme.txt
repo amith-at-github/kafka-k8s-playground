@@ -18,6 +18,11 @@ helm upgrade --install confluent-operator \
 
 kubectl get pods
 
+### Enable CSI Storage
+# THis is per cluster and namespace not needed
+kubectl apply -f $TUTORIAL_HOME/storage/storage.yml -n confluent
+
+
 
 #Gen CA Pair
 openssl genrsa -out $TUTORIAL_HOME/certs/ca-key.pem 2048
@@ -33,12 +38,8 @@ kubectl create secret tls ca-pair-sslcerts \
   --key=$TUTORIAL_HOME/certs/ca-key.pem -n confluent
 
 
-kubectl create secret generic cloud-plain \
---from-file=plain.txt=$TUTORIAL_HOME/creds/creds-client-kafka-sasl-user.txt -n confluent
+kubectl apply -f $TUTORIAL_HOME/creds/krp-secrets.yaml -n confluent
 
-
-kubectl create secret generic cloud-sr-access \
---from-file=basic.txt=$TUTORIAL_HOME/creds/creds-schemaRegistry-user.txt -n confluent
 
 
 

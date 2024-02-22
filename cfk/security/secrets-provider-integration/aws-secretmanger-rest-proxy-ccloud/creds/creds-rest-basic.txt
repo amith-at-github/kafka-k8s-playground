@@ -1,2 +1,4 @@
-api-key: api-secret,krp-user
-admin1: admin1,krp-user
+<api-key>: <api-secret>,krp-users
+<api-key>: <api-secret>,krp-users
+<api-key>: <api-secret>,krp-users
+bob: bobsecret,krp-users

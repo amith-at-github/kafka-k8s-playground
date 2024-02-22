@@ -14,9 +14,9 @@ spec:
       - authentication.roles=krp-users
     jvm:
       - "-Djava.security.auth.login.config=/mnt/secrets/cp2ccloud-rest-users/ccloud-rp-access.jaas"  
-  replicas: 1
-  # mountedSecrets:
-  # - secretRef: cp2ccloud-rest-users
+  replicas: 2
+  mountedSecrets:
+  - secretRef: cp2ccloud-rest-users
   mountedVolumes:
     volumes:
     - name: secrets-store01-inline
@@ -27,7 +27,7 @@ spec:
           secretProviderClass: "aws-secrets-class-rp"
     volumeMounts:
     - name: secrets-store01-inline
-      mountPath: "/mnt/secrets/cp2ccloud-rest-users"
+      mountPath: "/mnt/secret-store/cp2ccloud-rest-users"
       readOnly: true
   image:
     application: confluentinc/cp-kafka-rest:7.5.1

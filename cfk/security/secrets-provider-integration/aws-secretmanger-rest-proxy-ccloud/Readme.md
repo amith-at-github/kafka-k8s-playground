@@ -1,6 +1,6 @@
 
 ## Overview
-This is a sample Repo demonstrating  CP Rest Proxy deployment on CFK, pointing to Confluent Cloud kafka server and schema Registry. Addionally this repo also supports follwing features.
+This is a sample Repo demonstrating  CP Rest Proxy deployment on CFK, pointing to Confluent Cloud kafka server and schema Registry. Additionally this repo also supports following features.
 -  CFK using csi drivers (container storage interface).
 -  CP rest Proxy enabled with Principal propagation.
 -  Integrates with AWS secruity Manager.

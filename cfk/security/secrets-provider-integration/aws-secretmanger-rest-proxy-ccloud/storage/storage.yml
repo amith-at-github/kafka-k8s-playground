@@ -1,0 +1,21 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: production-storage-class
+#  annotations:
+#    storageclass.kubernetes.io/is-default-class: 'false'
+# For GCP you can set
+#provisioner: kubernetes.io/gce-pd
+# For EKS you can set
+# parameters:
+#   csi.storage.k8s.io/fstype: ext4
+#   encrypted: true
+#   iops: 'xxx'
+#   kmsKeyId: arn:aws:kms:REGION:xxxx:key/asdfds-adsfsaf-xxxx-dxxx
+#   throughput: 'xxx'
+#   type: 'gp3'
+provisioner: kubernetes.io/aws-ebs
+#reclaimPolicy: Retain
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
